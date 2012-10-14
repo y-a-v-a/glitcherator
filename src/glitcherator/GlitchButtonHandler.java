@@ -1,6 +1,5 @@
 package glitcherator;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
@@ -19,7 +18,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.border.Border;
 
 public class GlitchButtonHandler implements ActionListener {
 
