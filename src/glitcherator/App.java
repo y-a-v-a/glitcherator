@@ -8,31 +8,39 @@ import javax.swing.JPanel;
 
 public class App {
 
-	private String imagename;
-
 	public static JFrame frame;
+	
+	public static GlitchPanel glitch;
+	
+	public App() {
+		frame = new JFrame();
+		frame.setName("Glitcherator");
+		frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+	}
 	
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Glitcherator");
 		
-		App app = new App();
-		app.imagename = args[0];
-		Glitcherator glitch = new Glitcherator(app.imagename);
-		
-		frame = new JFrame("Glitcherator");
-		frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+		new App();
+		glitch = new GlitchPanel();
+		glitch.setName("Glitchpanel");
+		GlitchButtonHandler gbh = new GlitchButtonHandler();
 		
 		JPanel panel = new JPanel();
+		panel.setName("Panel");
 		Dimension minimumSize = new Dimension(1000,800);
 		panel.setPreferredSize(minimumSize);
 		
 		JButton bttn = new JButton("Refresh");
+		bttn.setName("Refresh");
 		bttn.setToolTipText("Refresh image");
-		bttn.addActionListener(glitch);
+		bttn.addActionListener(gbh);
 		JButton bttn2 = new JButton("Save");
-		bttn2.addActionListener(glitch);
+		bttn2.setName("Save");
+		bttn2.addActionListener(gbh);
 		JButton bttn3 = new JButton("Open");
-		bttn3.addActionListener(glitch);
+		bttn3.setName("Open");
+		bttn3.addActionListener(gbh);
 		
 		panel.add(bttn);
 		panel.add(bttn2);
@@ -42,12 +50,9 @@ public class App {
 		StringBuffer title = new StringBuffer();
 		title.append(Glitcherator.VERSION);
 		title.append(" - ");
-		title.append(app.imagename);
+		title.append(glitch.getGlitch().getFilename());
 		title.append(" - y_a_v_a");
 		frame.setTitle(title.toString());
-				
-		
-		glitch.build();
 		
 		panel.add(glitch);
 		frame.setContentPane(panel);
