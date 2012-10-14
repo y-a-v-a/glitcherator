@@ -19,6 +19,7 @@ public class App {
 
 	static final String INIT_IMAGE = "/resources/start.jpg";
 	static final String ABOUT_ICON = "/resources/g32.png";
+	static final String HOW_TO = "/resources/howto.html";
 	static final Integer BASE_WIDTH = 1000;
 	static final Integer BASE_HEIGHT = 800;
 	
@@ -49,18 +50,27 @@ public class App {
 		panel.setPreferredSize(minimumSize);
 		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
 		
 		JMenuItem open = new JMenuItem("Open");
 		open.setName("Open");
 		open.addActionListener(gbh);
-		menu.add(open);
+		fileMenu.add(open);
 		
 		JMenuItem save = new JMenuItem("Save");
 		save.setName("Save");
 		save.addActionListener(gbh);
-		menu.add(save);
+		fileMenu.add(save);
+		
+		JMenu helpMenu = new JMenu("Help");
+		menuBar.add(helpMenu);
+		
+		JMenuItem help = new JMenuItem("How to glitch");
+		help.setName("How");
+		help.setActionCommand("How");
+		help.addActionListener(gbh);
+		helpMenu.add(help);
 		
 		frame.setJMenuBar(menuBar);
 		
