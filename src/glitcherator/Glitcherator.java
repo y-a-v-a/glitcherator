@@ -95,14 +95,6 @@ public class Glitcherator {
 		return this;
 	}
 
-	public int getImgWidth() {
-		return this.image.getWidth();
-	}
-
-	public int getImgHeight() {
-		return this.image.getHeight();
-	}
-
 	/**
 	 * Export image to new file
 	 * 
@@ -120,13 +112,20 @@ public class Glitcherator {
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "Cannot convert image to string";
+	public void refresh() {
+		Runtime r = Runtime.getRuntime();
+		r.gc();
+
+		this.ctime = new Date().getTime();
+		this.build();
+	}
+
+	public int getImgWidth() {
+		return this.image.getWidth();
+	}
+
+	public int getImgHeight() {
+		return this.image.getHeight();
 	}
 
 	public BufferedImage getDefImg() {
@@ -135,14 +134,6 @@ public class Glitcherator {
 
 	private void setDefImg(BufferedImage bi) {
 		this.def_img = bi;
-	}
-
-	public void refresh() {
-		Runtime r = Runtime.getRuntime();
-		r.gc();
-
-		this.ctime = new Date().getTime();
-		this.build();
 	}
 
 	public long getCtime() {
@@ -156,4 +147,10 @@ public class Glitcherator {
 	public String getFilename() {
 		return filename;
 	}
+
+	public String toString() {
+		return "Cannot convert image to string";
+	}
+
+
 }

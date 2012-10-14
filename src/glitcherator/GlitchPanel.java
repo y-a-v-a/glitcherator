@@ -6,16 +6,17 @@ import javax.swing.JPanel;
 
 // is a panel
 public class GlitchPanel extends JPanel {
-	
+
 	// has an image
 	private Glitcherator glitch;
 
 	private static final long serialVersionUID = 7824240316897863142L;
-	
+
 	public GlitchPanel() {
-		this.glitch = new Glitcherator("toosad2.jpg");
+		String filename = getClass().getResource(App.INIT_IMAGE).getFile();
+		this.glitch = new Glitcherator(filename);
 	}
-	
+
 	public void loadNewGlitch(String filename) {
 		this.glitch = null;
 		this.glitch = new Glitcherator(filename);
@@ -27,24 +28,30 @@ public class GlitchPanel extends JPanel {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		this.glitch.build();
 
 		// center image on pane
-		Integer fromLeft = new Integer(0);
-		fromLeft = Integer
-				.parseInt(String.valueOf(((1000 - this.glitch.getImgWidth()) / 2)));
-		this.setBounds(fromLeft, 40, this.glitch.getImgWidth(), this.glitch.getImgHeight());
+		Integer fromLeft = Integer.parseInt(String.valueOf((App.BASE_WIDTH - this.glitch
+				.getImgWidth()) / 2));
+		this.setBounds(fromLeft, 40, this.glitch.getImgWidth(),
+				this.glitch.getImgHeight());
 
 		g.drawImage(this.glitch.getDefImg(), 0, 0, null);
 	}
 
+	/**
+	 * @return Glitcherator
+	 */
 	public Glitcherator getGlitch() {
 		return glitch;
 	}
-	
+
+	/**
+	 * @param glitch
+	 */
 	public void setGlitch(Glitcherator glitch) {
 		this.glitch = glitch;
 	}
-	
+
 }

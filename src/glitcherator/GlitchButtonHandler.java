@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FilenameFilter;
 
 public class GlitchButtonHandler implements ActionListener {
 
@@ -34,12 +36,19 @@ public class GlitchButtonHandler implements ActionListener {
 			String filename = fd.getDirectory() + fd.getFile();
 			gp.getGlitch().export(filename);
 		}
+
 		if (e.getActionCommand() == "Refresh") {
 			gp.getGlitch().refresh();
 			App.frame.repaint();
 		}
+
 		if (e.getActionCommand() == "Open") {
 			FileDialog fd = new FileDialog(App.frame, null, FileDialog.LOAD);
+			fd.setFilenameFilter(new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					return (name.endsWith(".jpg")); // only jpeg for now
+				}
+			});
 			fd.setVisible(true);
 			String filename = fd.getDirectory() + fd.getFile();
 			gp.loadNewGlitch(filename);
