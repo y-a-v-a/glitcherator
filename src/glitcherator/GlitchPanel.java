@@ -22,6 +22,10 @@ public class GlitchPanel extends JPanel {
 		this.glitch = new Glitcherator(filename);
 		this.repaint();
 	}
+	
+	public void refreshGlitch() {
+		this.glitch.build();
+	}
 
 	/**
 	 * override from JPanel
@@ -29,7 +33,7 @@ public class GlitchPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		this.glitch.build();
+		refreshGlitch();
 
 		// center image on pane
 		Integer fromLeft = Integer.parseInt(String.valueOf((App.BASE_WIDTH - this.glitch
