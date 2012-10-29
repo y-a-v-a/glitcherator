@@ -61,6 +61,6 @@ public class HowToDialog extends JDialog {
         close.setAlignmentX(0.5f);
         add(close);
         setSize(400, 300);
-        // visibility handled by GlitchButtonHandler
+        // visibility handled by GlitchActionHandler
 	}
 }

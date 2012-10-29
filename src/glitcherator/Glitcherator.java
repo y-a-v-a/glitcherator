@@ -24,6 +24,10 @@ public class Glitcherator {
 	private String fileName;
 
 	private byte[] imageAsByteArray;
+	
+	private int chunkSize = (int) Math.pow(2, (int) Math.round(Math.random() * 10));
+
+	private int chunkAmount = 4;
 
 	public Glitcherator() {
 		this.ctime = new Date().getTime();
@@ -61,21 +65,24 @@ public class Glitcherator {
 		
 		char[] pseudoBuffer = Hex.encodeHex(imageAsByteArray, true);
 		int positionLimit = pseudoBuffer.length;
-		int glitchPosition = (int) Math.round(Math.random() * positionLimit);
 		
-		// generate a value for replacement
-		int exp = (int) Math.round(Math.random() * 10);
-		int chunkSize = (int) Math.pow(2, exp);
-
-		// stay within bounds
-		if ((glitchPosition + chunkSize) > positionLimit) {
-			glitchPosition -= chunkSize;
+		for (int t = 0; t < this.chunkAmount; t++) {
+			int glitchPosition = (int) Math.round(Math.random() * positionLimit);
+			
+			// generate a value for replacement
+			int chunkSize = this.chunkSize;
+	
+			// stay within bounds
+			if ((glitchPosition + chunkSize) > positionLimit) {
+				glitchPosition -= chunkSize;
+			}
+	
+			for (int i = glitchPosition; i < (glitchPosition + chunkSize); i += 2) {
+				pseudoBuffer[i] = '5';
+				pseudoBuffer[i + 1] = 'e';
+			}
 		}
-
-		for (int i = glitchPosition; i < (glitchPosition + chunkSize); i += 2) {
-			pseudoBuffer[i] = '5';
-			pseudoBuffer[i + 1] = 'e';
-		}
+		
 		byte[] newImageByteArray = null;
 
 		try {
@@ -154,6 +161,19 @@ public class Glitcherator {
 	public String toString() {
 		return "Cannot convert image to string";
 	}
+
+	public int getChunkSize() {
+		return chunkSize;
+	}
+
+	public void setChunkSize(int chunkSize) {
+		this.chunkSize = chunkSize;
+	}
+
+	public void setChunkAmount(int value) {
+		this.chunkAmount  = value;
+	}
+
 
 
 }

@@ -10,6 +10,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
 
 import com.apple.eawt.AboutHandler;
 import com.apple.eawt.AppEvent.AboutEvent;
@@ -42,7 +44,7 @@ public class App {
 		
 		glitch = new GlitchPanel();
 		glitch.setName("Glitchpanel");
-		GlitchButtonHandler gbh = new GlitchButtonHandler();
+		GlitchActionHandler gbh = new GlitchActionHandler();
 		
 		JPanel panel = new JPanel();
 		panel.setName("Panel");
@@ -79,7 +81,27 @@ public class App {
 		bttn.setToolTipText("Refresh image");
 		bttn.addActionListener(gbh);
 		
+		ChangeListener cl = new GlitchChangeListener();
+		JSlider sizeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1024, 512);
+		sizeSlider.setName("SizeSlider");
+		sizeSlider.setToolTipText("Change chunksize");
+		sizeSlider.addChangeListener(cl);
+		sizeSlider.setMajorTickSpacing(64);
+		sizeSlider.setSnapToTicks(true);
+		sizeSlider.setPaintTicks(true);
+//		slider.setPreferredSize(new Dimension(512, 50)); // add this?
+		
+		JSlider amountSlider = new JSlider(JSlider.HORIZONTAL, 0, 32, 4);
+		amountSlider.setName("AmountSlider");
+		amountSlider.setToolTipText("Change amount of chunks");
+		amountSlider.addChangeListener(cl);
+		amountSlider.setMajorTickSpacing(2);
+		amountSlider.setSnapToTicks(true);
+		
 		panel.add(bttn);
+		panel.add(sizeSlider);
+		panel.add(amountSlider);
+		
 		frame.add(panel);
 		
 		StringBuffer title = new StringBuffer();

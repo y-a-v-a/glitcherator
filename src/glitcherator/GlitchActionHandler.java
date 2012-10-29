@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FilenameFilter;
 
-public class GlitchButtonHandler implements ActionListener {
-	private HowToDialog htp = null;
+public class GlitchActionHandler implements ActionListener {
+	private HowToDialog howToDialog = null;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -56,11 +56,11 @@ public class GlitchButtonHandler implements ActionListener {
 		}
 		if(e.getActionCommand() == "How") {
 			// cache panel
-			if (htp == null) {
-				htp = new HowToDialog();
+			if (howToDialog == null) {
+				howToDialog = new HowToDialog();
 			}
-			htp.setVisible(true);
+			howToDialog.setVisible(true);
 		}
 	}
-
+	
 }
