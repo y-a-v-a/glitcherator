@@ -17,13 +17,13 @@ public class Glitcherator {
 
 	private long ctime;
 
-	private BufferedImage image;
+	private BufferedImage originalImage;
 
-	private BufferedImage def_img;
+	private BufferedImage definiteImage;
 
-	private String filename;
+	private String fileName;
 
-	private byte[] imageRaw;
+	private byte[] imageAsByteArray;
 
 	public Glitcherator() {
 		this.ctime = new Date().getTime();
@@ -31,24 +31,24 @@ public class Glitcherator {
 
 	public Glitcherator(String filename) {
 		this();
-		this.filename = filename;
+		this.fileName = filename;
 		this.load();
 	}
 
 	private void load() {
 		// first read original file
 		try {
-			this.image = ImageIO.read(new File(this.filename));
+			this.originalImage = ImageIO.read(new File(this.fileName));
 		} catch (IOException e) {
 			System.out.println("Exception: " + e.getMessage());
 		}
 
 		// then read it raw in bytes
 		try {
-			File f = new File(this.filename);
-			FileImageInputStream fis = new FileImageInputStream(f);
-			this.imageRaw = new byte[(int) f.length()];
-			fis.read(imageRaw);
+			File file = new File(this.fileName);
+			FileImageInputStream fis = new FileImageInputStream(file);
+			this.imageAsByteArray = new byte[(int) file.length()];
+			fis.read(imageAsByteArray);
 
 		} catch (Exception e) {
 			System.out.println("io error");
@@ -57,31 +57,34 @@ public class Glitcherator {
 	}
 
 	public Glitcherator build() {
-		this.def_img = null;
+		this.definiteImage = null;
 		
-		char[] myChar = Hex.encodeHex(imageRaw, true);
-		int max = myChar.length;
-		Long x = new Long(Math.round(Math.random() * max));
-		int k = Integer.parseInt(x.toString());
+		char[] pseudoBuffer = Hex.encodeHex(imageAsByteArray, true);
+		int positionLimit = pseudoBuffer.length;
+		int glitchPosition = (int) Math.round(Math.random() * positionLimit);
+		
+		// generate a value for replacement
+		int exp = (int) Math.round(Math.random() * 10);
+		int chunkSize = (int) Math.pow(2, exp);
 
 		// stay within bounds
-		if ((k + 512) > max) {
-			k -= 512;
+		if ((glitchPosition + chunkSize) > positionLimit) {
+			glitchPosition -= chunkSize;
 		}
 
-		for (int i = k; i < (k + 512); i += 2) {
-			myChar[i] = '5';
-			myChar[i + 1] = 'e';
+		for (int i = glitchPosition; i < (glitchPosition + chunkSize); i += 2) {
+			pseudoBuffer[i] = '5';
+			pseudoBuffer[i + 1] = 'e';
 		}
-		byte[] myArray = null;
+		byte[] newImageByteArray = null;
 
 		try {
-			myArray = Hex.decodeHex(myChar);
+			newImageByteArray = Hex.decodeHex(pseudoBuffer);
 		} catch (Exception e) {
 			System.out.println("decoding mishap");
 		}
 
-		ByteArrayInputStream bais = new ByteArrayInputStream(myArray);
+		ByteArrayInputStream bais = new ByteArrayInputStream(newImageByteArray);
 
 		BufferedImage bi = null;
 		try {
@@ -104,8 +107,8 @@ public class Glitcherator {
 	 */
 	public Glitcherator export(String target) {
 		try {
-			File outputfile = new File(target);
-			ImageIO.write(this.getDefImg(), "jpg", outputfile);
+			File outputFile = new File(target);
+			ImageIO.write(this.getDefImg(), "jpg", outputFile);
 		} catch (IOException e) {
 			System.out.println("Exception: " + e.getMessage());
 		}
@@ -121,19 +124,19 @@ public class Glitcherator {
 	}
 
 	public int getImgWidth() {
-		return this.image.getWidth();
+		return this.originalImage.getWidth();
 	}
 
 	public int getImgHeight() {
-		return this.image.getHeight();
+		return this.originalImage.getHeight();
 	}
 
 	public BufferedImage getDefImg() {
-		return def_img;
+		return definiteImage;
 	}
 
 	private void setDefImg(BufferedImage bi) {
-		this.def_img = bi;
+		this.definiteImage = bi;
 	}
 
 	public long getCtime() {
@@ -145,7 +148,7 @@ public class Glitcherator {
 	}
 	
 	public String getFilename() {
-		return filename;
+		return fileName;
 	}
 
 	public String toString() {
