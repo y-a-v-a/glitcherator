@@ -36,6 +36,16 @@ public class GlitchChangeListener implements ChangeListener {
 				gp.getGlitch().setChunkAmount(source.getValue());
 				App.frame.repaint();
 			}
+		} else if (source.getName() == "HexSlider") {
+			if (((source.getValue() % 1) == 0) && !source.getValueIsAdjusting()) {
+				StringBuffer s = new StringBuffer();
+				s.append(Integer.toHexString(source.getValue()));
+				if(s.length() == 1) {
+					s.append("0");
+				}
+				gp.getGlitch().setHexValue(s.toString());
+				App.frame.repaint();
+			}
 		}
 	}
 

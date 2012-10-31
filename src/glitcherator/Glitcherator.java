@@ -28,6 +28,12 @@ public class Glitcherator {
 	private int chunkSize = (int) Math.pow(2, (int) Math.round(Math.random() * 10));
 
 	private int chunkAmount = 4;
+	
+	private int[] chunkPositions = new int[4];
+
+	private String hexValue = "5e";
+
+	private char[] pseudoBuffer;
 
 	public Glitcherator() {
 		this.ctime = new Date().getTime();
@@ -57,29 +63,31 @@ public class Glitcherator {
 		} catch (Exception e) {
 			System.out.println("io error");
 		}
-
+		initPseudoBuffer();
+		setChunkAmount(chunkAmount);
+	}
+	
+	private void initPseudoBuffer() {		
+		pseudoBuffer = Hex.encodeHex(this.imageAsByteArray, true);
 	}
 
 	public Glitcherator build() {
 		this.definiteImage = null;
-		
-		char[] pseudoBuffer = Hex.encodeHex(imageAsByteArray, true);
-		int positionLimit = pseudoBuffer.length;
-		
+		initPseudoBuffer();
+
 		for (int t = 0; t < this.chunkAmount; t++) {
-			int glitchPosition = (int) Math.round(Math.random() * positionLimit);
 			
 			// generate a value for replacement
 			int chunkSize = this.chunkSize;
 	
 			// stay within bounds
-			if ((glitchPosition + chunkSize) > positionLimit) {
-				glitchPosition -= chunkSize;
+			if ((chunkPositions[t] + chunkSize) > pseudoBuffer.length) {
+				chunkPositions[t] -= chunkSize;
 			}
 	
-			for (int i = glitchPosition; i < (glitchPosition + chunkSize); i += 2) {
-				pseudoBuffer[i] = '5';
-				pseudoBuffer[i + 1] = 'e';
+			for (int i = chunkPositions[t]; i < (chunkPositions[t] + chunkSize); i += 2) {
+				pseudoBuffer[i] = this.hexValue.toCharArray()[0];
+				pseudoBuffer[i + 1] = this.hexValue.toCharArray()[1];
 			}
 		}
 		
@@ -172,8 +180,15 @@ public class Glitcherator {
 
 	public void setChunkAmount(int value) {
 		this.chunkAmount  = value;
+		this.chunkPositions = new int[value];
+		for (int t = 0; t < this.chunkAmount; t++) {
+			int glitchPosition = (int) Math.round(Math.random() * this.pseudoBuffer.length);
+			this.chunkPositions[t] = glitchPosition;
+		}
 	}
 
-
+	public void setHexValue(String string) {
+		this.hexValue = string;
+	}
 
 }

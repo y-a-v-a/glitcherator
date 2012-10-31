@@ -98,9 +98,17 @@ public class App {
 		amountSlider.setMajorTickSpacing(2);
 		amountSlider.setSnapToTicks(true);
 		
+		JSlider hexSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 94); // 94 = 5e hex
+		hexSlider.setName("HexSlider");
+		hexSlider.setToolTipText("Change hex value to use");
+		hexSlider.addChangeListener(cl);
+		hexSlider.setMajorTickSpacing(1);
+		hexSlider.setSnapToTicks(true);
+		
 		panel.add(bttn);
 		panel.add(sizeSlider);
 		panel.add(amountSlider);
+		panel.add(hexSlider);
 		
 		frame.add(panel);
 		
