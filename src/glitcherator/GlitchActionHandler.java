@@ -7,25 +7,30 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+
 public class GlitchActionHandler implements ActionListener {
 	private HowToDialog howToDialog = null;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Component[] cs = App.frame.getContentPane().getComponents();
-		GlitchPanel gp = null;
+		JScrollPane jsp = null;
 		try {
 			for (int i = 0; i < cs.length; i++) {
-				if (cs[i].getName() == "Glitchpanel") {
-					gp = (GlitchPanel) cs[i];
+				if (cs[i].getName() == "ScrollPane") {
+					jsp = (JScrollPane) cs[i];
 				}
 			}
-			if (gp == null) {
+			if (jsp == null) {
 				throw new Exception("Cannot find panel!");
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		JViewport jvp = (JViewport) jsp.getComponent(0);
+		GlitchPanel gp = (GlitchPanel) jvp.getComponent(0);
 		
 		if (e.getActionCommand() == "Save") {
 			String file = "img" + gp.getGlitch().getCtime() + ".jpg";

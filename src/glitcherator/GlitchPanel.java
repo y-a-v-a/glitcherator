@@ -1,5 +1,6 @@
 package glitcherator;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -34,14 +35,11 @@ public class GlitchPanel extends JPanel {
 		super.paintComponent(g);
 
 		refreshGlitch();
+		this.setPreferredSize(new Dimension(this.glitch.getImgWidth(),
+				this.glitch.getImgHeight() ));
 
-		// center image on pane
-		Integer fromLeft = Integer.parseInt(String.valueOf((App.BASE_WIDTH - this.glitch
-				.getImgWidth()) / 2));
-		this.setBounds(fromLeft, 40, this.glitch.getImgWidth(),
-				this.glitch.getImgHeight());
-
-		g.drawImage(this.glitch.getDefImg(), 0, 0, null);
+		int left = (this.getWidth() - this.glitch.getImgWidth()) / 2; // posistion centered
+		g.drawImage(this.glitch.getDefImg(), left, 0, null);
 	}
 
 	/**

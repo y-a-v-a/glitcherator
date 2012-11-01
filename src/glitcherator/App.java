@@ -1,6 +1,8 @@
 package glitcherator;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,8 +11,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JToolBar;
 import javax.swing.event.ChangeListener;
 
 import com.apple.eawt.AboutHandler;
@@ -33,6 +36,8 @@ public class App {
 		frame = new JFrame();
 		frame.setName("Glitcherator");
 		frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(BASE_WIDTH, BASE_HEIGHT));
+		frame.setLayout(new BorderLayout(4,4));
 	}
 	
 	public static void main(String[] args) {
@@ -46,10 +51,8 @@ public class App {
 		glitch.setName("Glitchpanel");
 		GlitchActionHandler gbh = new GlitchActionHandler();
 		
-		JPanel panel = new JPanel();
-		panel.setName("Panel");
-		Dimension minimumSize = new Dimension(App.BASE_WIDTH, App.BASE_HEIGHT);
-		panel.setPreferredSize(minimumSize);
+		JToolBar toolBar = app.createToolBar(gbh);
+		frame.add(toolBar, BorderLayout.PAGE_START);
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -76,6 +79,30 @@ public class App {
 		
 		frame.setJMenuBar(menuBar);
 		
+		StringBuffer title = new StringBuffer();
+		title.append(Glitcherator.VERSION);
+		title.append(" - ");
+		title.append(glitch.getGlitch().getFilename());
+		title.append(" - y_a_v_a");
+		frame.setTitle(title.toString());
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setName("ScrollPane");
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setViewportView(glitch);
+
+		frame.add(scrollPane, BorderLayout.CENTER);
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	private JToolBar createToolBar(GlitchActionHandler gbh) {
+		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
+		toolBar.setName("ToolBar");
+		toolBar.setMargin(new Insets(10, 10, 10, 10));
+		toolBar.setFloatable(false);
+		
 		JButton bttn = new JButton("Refresh");
 		bttn.setName("Refresh");
 		bttn.setToolTipText("Refresh image");
@@ -89,7 +116,6 @@ public class App {
 		sizeSlider.setMajorTickSpacing(64);
 		sizeSlider.setSnapToTicks(true);
 		sizeSlider.setPaintTicks(true);
-//		slider.setPreferredSize(new Dimension(512, 50)); // add this?
 		
 		JSlider amountSlider = new JSlider(JSlider.HORIZONTAL, 0, 32, 4);
 		amountSlider.setName("AmountSlider");
@@ -105,26 +131,12 @@ public class App {
 		hexSlider.setMajorTickSpacing(1);
 		hexSlider.setSnapToTicks(true);
 		
-		panel.add(bttn);
-		panel.add(sizeSlider);
-		panel.add(amountSlider);
-		panel.add(hexSlider);
+		toolBar.add(bttn);
+		toolBar.add(sizeSlider);
+		toolBar.add(amountSlider);
+		toolBar.add(hexSlider);
 		
-		frame.add(panel);
-		
-		StringBuffer title = new StringBuffer();
-		title.append(Glitcherator.VERSION);
-		title.append(" - ");
-		title.append(glitch.getGlitch().getFilename());
-		title.append(" - y_a_v_a");
-		frame.setTitle(title.toString());
-		
-		panel.add(glitch);
-		frame.setContentPane(panel);
-
-
-		frame.pack();
-		frame.setVisible(true);
+		return toolBar;
 	}
 
 	private void setAboutHandler() {

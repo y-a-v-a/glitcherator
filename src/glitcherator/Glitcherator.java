@@ -25,7 +25,7 @@ public class Glitcherator {
 
 	private byte[] imageAsByteArray;
 	
-	private int chunkSize = (int) Math.pow(2, (int) Math.round(Math.random() * 10));
+	private int chunkSize = 512;//(int) Math.pow(2, (int) Math.round(Math.random() * 10));
 
 	private int chunkAmount = 4;
 	
@@ -135,7 +135,8 @@ public class Glitcherator {
 		r.gc();
 
 		this.ctime = new Date().getTime();
-		this.build();
+		//this.build();
+		setDefImg(this.originalImage);
 	}
 
 	public int getImgWidth() {
