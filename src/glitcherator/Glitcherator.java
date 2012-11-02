@@ -105,10 +105,9 @@ public class Glitcherator {
 		}
 
 		ByteArrayInputStream bais = new ByteArrayInputStream(newImageByteArray);
-		System.out.println(bais.available());
 		
 		BufferedImage bi = null;
-		JLabel sb = (JLabel) App.components.get("Statusbar");
+		JLabel sb = (JLabel) App.getAppComponents().get("Statusbar");
 		
 		try {
 			bi = ImageIO.read(bais);

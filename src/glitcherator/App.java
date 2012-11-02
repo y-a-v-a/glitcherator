@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,17 +26,15 @@ import com.apple.eawt.Application;
 
 public class App {
 
-	static final String INIT_IMAGE = "/resources/start.jpg";
-	static final String ABOUT_ICON = "/resources/g32.png";
-	static final String HOW_TO = "/resources/howto.html";
-	static final Integer BASE_WIDTH = 1000;
-	static final Integer BASE_HEIGHT = 800;
+	public static final String INIT_IMAGE = "/resources/start.jpg";
+	public static final String ABOUT_ICON = "/resources/g32.png";
+	public static final String HOW_TO = "/resources/howto.html";
+	public static final Integer BASE_WIDTH = 1000;
+	public static final Integer BASE_HEIGHT = 800;
 	
 	public static JFrame frame;
 	
-	public static GlitchPanel glitch;
-	
-	public static HashMap<String, Component> components = new HashMap<String, Component>();
+	private static HashMap<String, Component> appComponents = new HashMap<String, Component>();
 	
 	public App() {
 		frame = new JFrame();
@@ -43,6 +42,7 @@ public class App {
 		frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(BASE_WIDTH, BASE_HEIGHT));
 		frame.setLayout(new BorderLayout(4,4));
+		appComponents.put("app", frame);
 	}
 	
 	public static void main(String[] args) {
@@ -55,8 +55,9 @@ public class App {
 	}
 
 	private void initialize() {
-		glitch = new GlitchPanel();
+		GlitchPanel glitch = new GlitchPanel();
 		glitch.setName("Glitchpanel");
+		appComponents.put(glitch.getName(), glitch);
 		GlitchActionHandler gbh = new GlitchActionHandler();
 		
 		JToolBar toolBar = createToolBar(gbh);
@@ -102,9 +103,10 @@ public class App {
 		
 		JLabel statusBar = new JLabel("Statusbar");
 		statusBar.setName("Statusbar");
-		statusBar.setVerticalTextPosition(JLabel.CENTER);
+		statusBar.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		statusBar.setBorder(BorderFactory.createEmptyBorder(0, 10, 6, 0));
 		statusBar.setHorizontalTextPosition(JLabel.LEFT);
-		App.components.put(statusBar.getName(), statusBar);
+		appComponents.put(statusBar.getName(), statusBar);
 		frame.add(statusBar, BorderLayout.SOUTH);
 		
 		frame.add(scrollPane, BorderLayout.CENTER);
@@ -115,7 +117,7 @@ public class App {
 	private JToolBar createToolBar(GlitchActionHandler gbh) {
 		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
 		toolBar.setName("ToolBar");
-		toolBar.setMargin(new Insets(10, 10, 10, 10));
+		toolBar.setMargin(new Insets(4, 4, 4, 4));
 		toolBar.setFloatable(false);
 		
 		JButton bttn = new JButton("Refresh");
@@ -138,7 +140,7 @@ public class App {
 		amountSlider.addChangeListener(cl);
 		amountSlider.setMajorTickSpacing(2);
 		amountSlider.setSnapToTicks(true);
-		
+
 		JSlider hexSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 94); // 94 = 5e hex
 		hexSlider.setName("HexSlider");
 		hexSlider.setToolTipText("Change hex value to use");
@@ -146,10 +148,16 @@ public class App {
 		hexSlider.setMajorTickSpacing(1);
 		hexSlider.setSnapToTicks(true);
 		
+		JLabel hexVal = new JLabel("5e");
+		hexVal.setName("hexVal");
+		hexVal.setPreferredSize(new Dimension(20, 0));
+		appComponents.put(hexVal.getName(), hexVal);
+		
 		toolBar.add(bttn);
 		toolBar.add(sizeSlider);
 		toolBar.add(amountSlider);
 		toolBar.add(hexSlider);
+		toolBar.add(hexVal);
 		
 		return toolBar;
 	}
@@ -173,5 +181,9 @@ public class App {
 				JOptionPane.showMessageDialog(null, sb, "About", JOptionPane.INFORMATION_MESSAGE, icon);
 			}
 		});
+	}
+	
+	static HashMap<String, Component> getAppComponents() {
+		return appComponents;
 	}
 }

@@ -1,10 +1,7 @@
 package glitcherator;
 
-import java.awt.Component;
-
-import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.JViewport;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -12,22 +9,7 @@ public class GlitchChangeListener implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		Component[] cs = App.frame.getContentPane().getComponents();
-		JScrollPane jsp = null;
-		try {
-			for (int i = 0; i < cs.length; i++) {
-				if (cs[i].getName() == "ScrollPane") {
-					jsp = (JScrollPane) cs[i];
-				}
-			}
-			if (jsp == null) {
-				throw new Exception("Cannot find panel!");
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		JViewport jvp = (JViewport) jsp.getComponent(0);
-		GlitchPanel gp = (GlitchPanel) jvp.getComponent(0);
+		GlitchPanel gp = (GlitchPanel) App.getAppComponents().get("Glitchpanel");
 
 		JSlider source = (JSlider) e.getSource();
 		if (source.getName() == "SizeSlider") {
@@ -47,7 +29,10 @@ public class GlitchChangeListener implements ChangeListener {
 				if(s.length() == 1) {
 					s.append("0");
 				}
-				gp.getGlitch().setHexValue(s.toString());
+				String value = s.toString();
+				JLabel hexVal = (JLabel) App.getAppComponents().get("hexVal");
+				hexVal.setText(value);
+				gp.getGlitch().setHexValue(value);
 				App.frame.repaint();
 			}
 		}
