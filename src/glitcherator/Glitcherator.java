@@ -19,7 +19,7 @@ public class Glitcherator {
 
 	private BufferedImage originalImage;
 
-	private BufferedImage definiteImage;
+	private BufferedImage definiteImage = null;
 
 	private String fileName;
 
@@ -49,6 +49,7 @@ public class Glitcherator {
 		// first read original file
 		try {
 			this.originalImage = ImageIO.read(new File(this.fileName));
+			this.definiteImage = ImageIO.read(new File(this.fileName));
 		} catch (IOException e) {
 			System.out.println("Exception: " + e.getMessage());
 		}
@@ -71,12 +72,8 @@ public class Glitcherator {
 		pseudoBuffer = Hex.encodeHex(this.imageAsByteArray, true);
 	}
 
-	public Glitcherator build() {
-		this.definiteImage = null;
-		initPseudoBuffer();
-
-		for (int t = 0; t < this.chunkAmount; t++) {
-			
+	public void build() {
+		for (int t = 0; t < this.chunkAmount; t++) {			
 			// generate a value for replacement
 			int chunkSize = this.chunkSize;
 	
@@ -104,20 +101,18 @@ public class Glitcherator {
 		BufferedImage bi = null;
 		try {
 			bi = ImageIO.read(bais);
+			this.definiteImage = null;
 		} catch (IOException e) {
 			System.out.println("cannot read image?!");
 		}
 		this.setDefImg(bi);
 		bais = null;
-		
-		return this;
 	}
 
 	/**
 	 * Export image to new file
 	 * 
-	 * @param String
-	 *            target
+	 * @param String target
 	 * @return Glitcherator
 	 */
 	public Glitcherator export(String target) {
@@ -131,12 +126,10 @@ public class Glitcherator {
 	}
 
 	public void refresh() {
+		this.definiteImage = null;
 		Runtime r = Runtime.getRuntime();
 		r.gc();
-
 		this.ctime = new Date().getTime();
-		//this.build();
-		setDefImg(this.originalImage);
 	}
 
 	public int getImgWidth() {
@@ -148,6 +141,9 @@ public class Glitcherator {
 	}
 
 	public BufferedImage getDefImg() {
+		if (definiteImage == null) {
+			this.build();
+		}
 		return definiteImage;
 	}
 
@@ -176,10 +172,12 @@ public class Glitcherator {
 	}
 
 	public void setChunkSize(int chunkSize) {
+		this.definiteImage = null;
 		this.chunkSize = chunkSize;
 	}
 
 	public void setChunkAmount(int value) {
+		this.definiteImage = null;
 		this.chunkAmount  = value;
 		this.chunkPositions = new int[value];
 		for (int t = 0; t < this.chunkAmount; t++) {
@@ -189,6 +187,7 @@ public class Glitcherator {
 	}
 
 	public void setHexValue(String string) {
+		this.definiteImage = null;
 		this.hexValue = string;
 	}
 

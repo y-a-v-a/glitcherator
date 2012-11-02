@@ -45,13 +45,16 @@ public class App {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 				
 		App app = new App();
+		app.initialize();
 		app.setAboutHandler();
-		
+	}
+
+	private void initialize() {
 		glitch = new GlitchPanel();
 		glitch.setName("Glitchpanel");
 		GlitchActionHandler gbh = new GlitchActionHandler();
 		
-		JToolBar toolBar = app.createToolBar(gbh);
+		JToolBar toolBar = createToolBar(gbh);
 		frame.add(toolBar, BorderLayout.PAGE_START);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -91,10 +94,10 @@ public class App {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setViewportView(glitch);
-
+		
 		frame.add(scrollPane, BorderLayout.CENTER);
 		frame.pack();
-		frame.setVisible(true);
+		frame.setVisible(true);	
 	}
 
 	private JToolBar createToolBar(GlitchActionHandler gbh) {
@@ -139,6 +142,9 @@ public class App {
 		return toolBar;
 	}
 
+	/**
+	 * Create about page
+	 */
 	private void setAboutHandler() {
 		Application a = Application.getApplication();
 		a.setAboutHandler(new AboutHandler() {

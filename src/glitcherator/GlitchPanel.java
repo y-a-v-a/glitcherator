@@ -24,22 +24,20 @@ public class GlitchPanel extends JPanel {
 		this.repaint();
 	}
 	
-	public void refreshGlitch() {
-		this.glitch.build();
-	}
-
 	/**
 	 * override from JPanel
 	 */
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void paintComponent(Graphics graphics) {
+		super.paintComponent(graphics);
 
-		refreshGlitch();
-		this.setPreferredSize(new Dimension(this.glitch.getImgWidth(),
-				this.glitch.getImgHeight() ));
+		int imageWidth = this.glitch.getImgWidth();
+		int imageHeight = this.glitch.getImgHeight();
+		
+		this.setPreferredSize(new Dimension(imageWidth, imageHeight));
 
-		int left = (this.getWidth() - this.glitch.getImgWidth()) / 2; // posistion centered
-		g.drawImage(this.glitch.getDefImg(), left, 0, null);
+		int panelWidth = this.getWidth();
+		int positionFromLeft = (panelWidth - imageWidth) / 2;
+		graphics.drawImage(this.glitch.getDefImg(), positionFromLeft, 10, null);
 	}
 
 	/**
@@ -48,12 +46,4 @@ public class GlitchPanel extends JPanel {
 	public Glitcherator getGlitch() {
 		return glitch;
 	}
-
-	/**
-	 * @param glitch
-	 */
-	public void setGlitch(Glitcherator glitch) {
-		this.glitch = glitch;
-	}
-
 }
