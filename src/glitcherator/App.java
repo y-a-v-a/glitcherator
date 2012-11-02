@@ -3,8 +3,11 @@ package glitcherator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -22,7 +25,9 @@ import javax.swing.event.ChangeListener;
 
 import com.apple.eawt.AboutHandler;
 import com.apple.eawt.AppEvent.AboutEvent;
+import com.apple.eawt.AppEvent.PreferencesEvent;
 import com.apple.eawt.Application;
+import com.apple.eawt.PreferencesHandler;
 
 public class App {
 
@@ -33,6 +38,7 @@ public class App {
 	public static final Integer BASE_HEIGHT = 800;
 	
 	public static JFrame frame;
+	private ResourceBundle bundle;
 	
 	private static HashMap<String, Component> appComponents = new HashMap<String, Component>();
 	
@@ -43,15 +49,20 @@ public class App {
 		frame.setPreferredSize(new Dimension(BASE_WIDTH, BASE_HEIGHT));
 		frame.setLayout(new BorderLayout(4,4));
 		appComponents.put("app", frame);
+		
+		Locale locale = Locale.getDefault();
+//		Locale l  = new Locale("en","US");
+		bundle = ResourceBundle.getBundle("resources.UI", locale);
 	}
 	
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Glitcherator");
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
-				
+		
 		App app = new App();
 		app.initialize();
 		app.setAboutHandler();
+		app.setPreferencesHandler();
 	}
 
 	private void initialize() {
@@ -64,20 +75,20 @@ public class App {
 		frame.add(toolBar, BorderLayout.PAGE_START);
 		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("File");
+		JMenu fileMenu = new JMenu(bundle.getString("menu.file"));
 		menuBar.add(fileMenu);
 		
-		JMenuItem open = new JMenuItem("Open");
+		JMenuItem open = new JMenuItem(bundle.getString("menu.file.open"));
 		open.setName("Open");
 		open.addActionListener(gbh);
 		fileMenu.add(open);
 		
-		JMenuItem save = new JMenuItem("Save");
+		JMenuItem save = new JMenuItem(bundle.getString("menu.file.save"));
 		save.setName("Save");
 		save.addActionListener(gbh);
 		fileMenu.add(save);
 		
-		JMenu helpMenu = new JMenu("Help");
+		JMenu helpMenu = new JMenu(bundle.getString("menu.help"));
 		menuBar.add(helpMenu);
 		
 		JMenuItem help = new JMenuItem("How to glitch");
@@ -103,8 +114,10 @@ public class App {
 		
 		JLabel statusBar = new JLabel("Statusbar");
 		statusBar.setName("Statusbar");
+		statusBar.setToolTipText("Information about last process.");
+		statusBar.setFont(new Font(statusBar.getFont().getName(), Font.PLAIN, 10));
 		statusBar.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		statusBar.setBorder(BorderFactory.createEmptyBorder(0, 10, 6, 0));
+		statusBar.setBorder(BorderFactory.createEmptyBorder(0, 10, 4, 0));
 		statusBar.setHorizontalTextPosition(JLabel.LEFT);
 		appComponents.put(statusBar.getName(), statusBar);
 		frame.add(statusBar, BorderLayout.SOUTH);
@@ -120,15 +133,15 @@ public class App {
 		toolBar.setMargin(new Insets(4, 4, 4, 4));
 		toolBar.setFloatable(false);
 		
-		JButton bttn = new JButton("Refresh");
+		JButton bttn = new JButton(bundle.getString("button.refresh"));
 		bttn.setName("Refresh");
-		bttn.setToolTipText("Refresh image");
+		bttn.setToolTipText(bundle.getString("button.refresh.tooltip"));
 		bttn.addActionListener(gbh);
 		
 		ChangeListener cl = new GlitchChangeListener();
 		JSlider sizeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1024, 512);
 		sizeSlider.setName("SizeSlider");
-		sizeSlider.setToolTipText("Change chunksize");
+		sizeSlider.setToolTipText(bundle.getString("slider.size.tooltip"));
 		sizeSlider.addChangeListener(cl);
 		sizeSlider.setMajorTickSpacing(64);
 		sizeSlider.setSnapToTicks(true);
@@ -136,14 +149,14 @@ public class App {
 		
 		JSlider amountSlider = new JSlider(JSlider.HORIZONTAL, 0, 32, 4);
 		amountSlider.setName("AmountSlider");
-		amountSlider.setToolTipText("Change amount of chunks");
+		amountSlider.setToolTipText(bundle.getString("slider.amount.tooltip"));
 		amountSlider.addChangeListener(cl);
 		amountSlider.setMajorTickSpacing(2);
 		amountSlider.setSnapToTicks(true);
 
 		JSlider hexSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 94); // 94 = 5e hex
 		hexSlider.setName("HexSlider");
-		hexSlider.setToolTipText("Change hex value to use");
+		hexSlider.setToolTipText(bundle.getString("slider.hex.tooltip"));
 		hexSlider.addChangeListener(cl);
 		hexSlider.setMajorTickSpacing(1);
 		hexSlider.setSnapToTicks(true);
@@ -154,8 +167,11 @@ public class App {
 		appComponents.put(hexVal.getName(), hexVal);
 		
 		toolBar.add(bttn);
+		toolBar.addSeparator();
 		toolBar.add(sizeSlider);
+		toolBar.addSeparator();
 		toolBar.add(amountSlider);
+		toolBar.addSeparator();
 		toolBar.add(hexSlider);
 		toolBar.add(hexVal);
 		
@@ -174,15 +190,27 @@ public class App {
 				ImageIcon icon = new ImageIcon(getClass().getResource(App.ABOUT_ICON));
 				
 				StringBuffer sb = new StringBuffer();
-				sb.append("Glitcherator version ");
+				sb.append(bundle.getString("about.version"));
+				sb.append(" ");
 				sb.append(Glitcherator.VERSION);
-				sb.append("\nby y-a-v-a.org");
+				sb.append(bundle.getString("about.by"));
 				
-				JOptionPane.showMessageDialog(null, sb, "About", JOptionPane.INFORMATION_MESSAGE, icon);
+				JOptionPane.showMessageDialog(null, sb, bundle.getString("about.title"),
+						JOptionPane.INFORMATION_MESSAGE, icon);
 			}
 		});
 	}
 	
+	private void setPreferencesHandler() {
+		Application a = Application.getApplication();
+		a.setPreferencesHandler(new PreferencesHandler() {
+			@Override
+			public void handlePreferences(PreferencesEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Show Preferences dialog here");
+			}
+		});
+	}
+
 	static HashMap<String, Component> getAppComponents() {
 		return appComponents;
 	}
