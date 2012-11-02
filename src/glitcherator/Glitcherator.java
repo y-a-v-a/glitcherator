@@ -15,25 +15,28 @@ public class Glitcherator {
 
 	static final String VERSION = "Glitcherator 0.1";
 
+	// instance fields
 	private long ctime;
 
+	private String fileName;
+
+	// buffers
 	private BufferedImage originalImage;
 
 	private BufferedImage definiteImage = null;
 
-	private String fileName;
-
 	private byte[] imageAsByteArray;
 	
+	private char[] pseudoBuffer;
+	
+	// glitch dynamics
 	private int chunkSize = 512;//(int) Math.pow(2, (int) Math.round(Math.random() * 10));
 
 	private int chunkAmount = 4;
 	
-	private int[] chunkPositions = new int[4];
+	private int[] chunkPositions = null;
 
 	private String hexValue = "5e";
-
-	private char[] pseudoBuffer;
 
 	public Glitcherator() {
 		this.ctime = new Date().getTime();
@@ -60,12 +63,12 @@ public class Glitcherator {
 			FileImageInputStream fis = new FileImageInputStream(file);
 			this.imageAsByteArray = new byte[(int) file.length()];
 			fis.read(imageAsByteArray);
+			fis.close();
 
 		} catch (Exception e) {
 			System.out.println("io error");
 		}
 		initPseudoBuffer();
-		setChunkAmount(chunkAmount);
 	}
 	
 	private void initPseudoBuffer() {		
@@ -73,16 +76,20 @@ public class Glitcherator {
 	}
 
 	public void build() {
-		for (int t = 0; t < this.chunkAmount; t++) {			
+		this.initPseudoBuffer();
+		int amount = getChunkAmount();
+		int[] positions = getChunkPositions(amount);
+		
+		for (int t = 0; t < amount; t++) {			
 			// generate a value for replacement
-			int chunkSize = this.chunkSize;
+			int chunkSize = getChunkSize();
 	
 			// stay within bounds
-			if ((chunkPositions[t] + chunkSize) > pseudoBuffer.length) {
-				chunkPositions[t] -= chunkSize;
+			if ((positions[t] + chunkSize) > pseudoBuffer.length) {
+				positions[t] -= chunkSize;
 			}
 	
-			for (int i = chunkPositions[t]; i < (chunkPositions[t] + chunkSize); i += 2) {
+			for (int i = positions[t]; i < (positions[t] + chunkSize); i += 2) {
 				pseudoBuffer[i] = this.hexValue.toCharArray()[0];
 				pseudoBuffer[i + 1] = this.hexValue.toCharArray()[1];
 			}
@@ -92,6 +99,7 @@ public class Glitcherator {
 
 		try {
 			newImageByteArray = Hex.decodeHex(pseudoBuffer);
+			System.out.println();
 		} catch (Exception e) {
 			System.out.println("decoding mishap");
 		}
@@ -102,10 +110,12 @@ public class Glitcherator {
 		try {
 			bi = ImageIO.read(bais);
 			this.definiteImage = null;
+			this.setDefImg(bi);
 		} catch (IOException e) {
 			System.out.println("cannot read image?!");
+			this.definiteImage = this.originalImage;
 		}
-		this.setDefImg(bi);
+		
 		bais = null;
 	}
 
@@ -142,8 +152,10 @@ public class Glitcherator {
 
 	public BufferedImage getDefImg() {
 		if (definiteImage == null) {
+//			System.out.println("DEF rebuild...");
 			this.build();
 		}
+//		System.out.println("DEF cache...");
 		return definiteImage;
 	}
 
@@ -179,11 +191,19 @@ public class Glitcherator {
 	public void setChunkAmount(int value) {
 		this.definiteImage = null;
 		this.chunkAmount  = value;
+	}
+	
+	private int getChunkAmount() {
+		return this.chunkAmount;
+	}
+	
+	private int[] getChunkPositions(int value) {
 		this.chunkPositions = new int[value];
-		for (int t = 0; t < this.chunkAmount; t++) {
+		for (int t = 0; t < value; t++) {
 			int glitchPosition = (int) Math.round(Math.random() * this.pseudoBuffer.length);
 			this.chunkPositions[t] = glitchPosition;
 		}
+		return this.chunkPositions;
 	}
 
 	public void setHexValue(String string) {
