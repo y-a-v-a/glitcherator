@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 // is a panel
 public class GlitchPanel extends JPanel {
+	
+	private static final int TOP_MARGIN = 10;
 
 	// has an image
 	private Glitcherator glitch;
@@ -37,8 +39,7 @@ public class GlitchPanel extends JPanel {
 
 		int panelWidth = this.getWidth();
 		int positionFromLeft = (panelWidth - imageWidth) / 2;
-		graphics.drawImage(this.glitch.getDefImg(), positionFromLeft, 10, null);
-//		System.out.println("Repainting... " + this.glitch.getCtime());
+		graphics.drawImage(this.glitch.getDefImg(), positionFromLeft, TOP_MARGIN, null);
 	}
 
 	/**

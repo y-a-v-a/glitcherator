@@ -1,12 +1,15 @@
 package glitcherator;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,6 +34,8 @@ public class App {
 	public static JFrame frame;
 	
 	public static GlitchPanel glitch;
+	
+	public static HashMap<String, Component> components = new HashMap<String, Component>();
 	
 	public App() {
 		frame = new JFrame();
@@ -94,6 +99,13 @@ public class App {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setViewportView(glitch);
+		
+		JLabel statusBar = new JLabel("Statusbar");
+		statusBar.setName("Statusbar");
+		statusBar.setVerticalTextPosition(JLabel.CENTER);
+		statusBar.setHorizontalTextPosition(JLabel.LEFT);
+		App.components.put(statusBar.getName(), statusBar);
+		frame.add(statusBar, BorderLayout.SOUTH);
 		
 		frame.add(scrollPane, BorderLayout.CENTER);
 		frame.pack();

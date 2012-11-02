@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
+import javax.swing.JLabel;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -99,20 +100,28 @@ public class Glitcherator {
 
 		try {
 			newImageByteArray = Hex.decodeHex(pseudoBuffer);
-			System.out.println();
 		} catch (Exception e) {
 			System.out.println("decoding mishap");
 		}
 
 		ByteArrayInputStream bais = new ByteArrayInputStream(newImageByteArray);
-
+		System.out.println(bais.available());
+		
 		BufferedImage bi = null;
+		JLabel sb = (JLabel) App.components.get("Statusbar");
+		
 		try {
 			bi = ImageIO.read(bais);
 			this.definiteImage = null;
 			this.setDefImg(bi);
+			sb.setText("New image is generated.");
 		} catch (IOException e) {
 			System.out.println("cannot read image?!");
+			sb.setText("Error occured. Showing initial image.");
+			this.definiteImage = this.originalImage;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Array index out of bounds?!");
+			sb.setText("Error occured. Showing initial image.");
 			this.definiteImage = this.originalImage;
 		}
 		
