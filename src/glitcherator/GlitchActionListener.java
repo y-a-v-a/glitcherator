@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FilenameFilter;
 
-public class GlitchActionHandler implements ActionListener {
+public class GlitchActionListener implements ActionListener {
 	private HowToDialog howToDialog = null;
 
 	@Override

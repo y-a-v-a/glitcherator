@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -38,7 +39,7 @@ public class App {
 	public static final Integer BASE_HEIGHT = 800;
 	
 	public static JFrame frame;
-	private ResourceBundle bundle;
+	public static ResourceBundle bundle;
 	
 	private static HashMap<String, Component> appComponents = new HashMap<String, Component>();
 	
@@ -49,9 +50,9 @@ public class App {
 		frame.setPreferredSize(new Dimension(BASE_WIDTH, BASE_HEIGHT));
 		frame.setLayout(new BorderLayout(4,4));
 		appComponents.put("app", frame);
-		
-		Locale locale = Locale.getDefault();
-//		Locale l  = new Locale("en","US");
+
+		Preferences prefs = Preferences.userNodeForPackage(glitcherator.App.class);
+		Locale locale =  new Locale(prefs.get(GlitchPrefsFrame.APP_LOCALE_KEY, GlitchPrefsFrame.APP_LOCALE_VAL));
 		bundle = ResourceBundle.getBundle("resources.UI", locale);
 	}
 	
@@ -69,7 +70,7 @@ public class App {
 		GlitchPanel glitch = new GlitchPanel();
 		glitch.setName("Glitchpanel");
 		appComponents.put(glitch.getName(), glitch);
-		GlitchActionHandler gbh = new GlitchActionHandler();
+		GlitchActionListener gbh = new GlitchActionListener();
 		
 		JToolBar toolBar = createToolBar(gbh);
 		frame.add(toolBar, BorderLayout.PAGE_START);
@@ -127,7 +128,7 @@ public class App {
 		frame.setVisible(true);	
 	}
 
-	private JToolBar createToolBar(GlitchActionHandler gbh) {
+	private JToolBar createToolBar(GlitchActionListener gbh) {
 		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
 		toolBar.setName("ToolBar");
 		toolBar.setMargin(new Insets(4, 4, 4, 4));
@@ -206,7 +207,8 @@ public class App {
 		a.setPreferencesHandler(new PreferencesHandler() {
 			@Override
 			public void handlePreferences(PreferencesEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Show Preferences dialog here");
+				GlitchPrefsFrame prefs = new GlitchPrefsFrame("Prefs");
+				prefs.setVisible(true);
 			}
 		});
 	}
