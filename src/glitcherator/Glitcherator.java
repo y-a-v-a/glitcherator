@@ -160,10 +160,8 @@ public class Glitcherator {
 
 	public BufferedImage getDefImg() {
 		if (definiteImage == null) {
-//			System.out.println("DEF rebuild...");
 			this.build();
 		}
-//		System.out.println("DEF cache...");
 		return definiteImage;
 	}
 

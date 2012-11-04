@@ -81,11 +81,13 @@ public class App {
 		
 		JMenuItem open = new JMenuItem(bundle.getString("menu.file.open"));
 		open.setName("Open");
+		open.setActionCommand("open");
 		open.addActionListener(gbh);
 		fileMenu.add(open);
 		
 		JMenuItem save = new JMenuItem(bundle.getString("menu.file.save"));
 		save.setName("Save");
+		save.setActionCommand("save");
 		save.addActionListener(gbh);
 		fileMenu.add(save);
 		
