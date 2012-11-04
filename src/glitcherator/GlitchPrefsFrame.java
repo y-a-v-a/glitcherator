@@ -24,7 +24,7 @@ public class GlitchPrefsFrame extends JFrame {
 	private Preferences prefs = Preferences.userNodeForPackage(glitcherator.App.class);
 	
 	public static final String SAVE_PATH_KEY = "save_path";
-	public static final String SAVE_PATH_VAL = "/tmp";
+	public static final String SAVE_PATH_VAL = System.getProperty("user.dir");
 	public static final String APP_LOCALE_KEY = "app_locale";
 	public static final String APP_LOCALE_VAL = Locale.getDefault().toString();
 	
