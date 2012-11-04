@@ -5,7 +5,8 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,10 +23,10 @@ public class HowToDialog extends JDialog {
 		super();
 		StringBuffer sb = new StringBuffer();
 		try {
-			String source = getClass().getResource(App.HOW_TO).getPath();
-			FileReader fr = new FileReader(source);
-			BufferedReader in = new BufferedReader(fr);
-			
+			InputStream source = getClass().getResourceAsStream(App.HOW_TO);
+			InputStreamReader isr = new InputStreamReader(source);
+			BufferedReader in = new BufferedReader(isr);
+
 			String str;
 			while ((str = in.readLine()) != null) {
 				sb.append(str);
