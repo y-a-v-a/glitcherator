@@ -2,6 +2,8 @@ package glitcherator;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.JPanel;
 
@@ -16,8 +18,14 @@ public class GlitchPanel extends JPanel {
 	private static final long serialVersionUID = 7824240316897863142L;
 
 	public GlitchPanel() {
-		String filename = getClass().getResource(App.INIT_IMAGE).getFile();
-		this.glitch = new Glitcherator(filename);
+//		String filename = App.INIT_IMAGE;//getClass().getResource(App.INIT_IMAGE).getFile();
+		InputStream filename = getClass().getResourceAsStream(App.INIT_IMAGE);
+		try {
+			this.glitch = new Glitcherator(App.INIT_IMAGE, filename);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void loadNewGlitch(String filename) {

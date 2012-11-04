@@ -22,7 +22,7 @@ public class HowToDialog extends JDialog {
 		super();
 		StringBuffer sb = new StringBuffer();
 		try {
-			String source = getClass().getResource(App.HOW_TO).getFile();
+			String source = getClass().getResource(App.HOW_TO).getPath();
 			FileReader fr = new FileReader(source);
 			BufferedReader in = new BufferedReader(fr);
 			

@@ -2,8 +2,10 @@ package glitcherator;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -48,21 +50,38 @@ public class Glitcherator {
 		this.fileName = filename;
 		this.load();
 	}
+	
+	public Glitcherator(String filename, InputStream stream) throws IOException {
+		this.fileName = filename;
+		try {
+			this.originalImage = ImageIO.read(stream);
+			this.definiteImage = ImageIO.read(stream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(this.originalImage, "jpeg", baos);
+		byte[] bytesOut = baos.toByteArray();
+		this.imageAsByteArray = bytesOut;
+		
+		initPseudoBuffer();
+	}
 
 	private void load() {
 		// first read original file
+		File imageFile = new File(this.fileName);
 		try {
-			this.originalImage = ImageIO.read(new File(this.fileName));
-			this.definiteImage = ImageIO.read(new File(this.fileName));
+			this.originalImage = ImageIO.read(imageFile);
+			this.definiteImage = ImageIO.read(imageFile);
 		} catch (IOException e) {
 			System.out.println("Exception: " + e.getMessage());
 		}
 
 		// then read it raw in bytes
 		try {
-			File file = new File(this.fileName);
-			FileImageInputStream fis = new FileImageInputStream(file);
-			this.imageAsByteArray = new byte[(int) file.length()];
+			FileImageInputStream fis = new FileImageInputStream(imageFile);
+			this.imageAsByteArray = new byte[(int) imageFile.length()];
 			fis.read(imageAsByteArray);
 			fis.close();
 

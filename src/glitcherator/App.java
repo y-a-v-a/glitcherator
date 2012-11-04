@@ -138,6 +138,7 @@ public class App {
 		
 		JButton bttn = new JButton(bundle.getString("button.refresh"));
 		bttn.setName("Refresh");
+		bttn.setActionCommand("refresh");
 		bttn.setToolTipText(bundle.getString("button.refresh.tooltip"));
 		bttn.addActionListener(gbh);
 		

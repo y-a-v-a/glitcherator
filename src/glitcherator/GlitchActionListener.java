@@ -25,7 +25,7 @@ public class GlitchActionListener implements ActionListener {
 			gp.getGlitch().export(filename);
 		}
 
-		if (e.getActionCommand() == "Refresh") {
+		if (e.getActionCommand() == "refresh") {
 			gp.getGlitch().refresh();
 			App.frame.repaint();
 		}
