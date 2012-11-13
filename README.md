@@ -19,6 +19,7 @@ After creating a Jar Bundle you can put Glitcherator within your Applications fo
 
 ### Icon ###
 Icons are available from the `icons` folder. A Mac OSX complient icon for use in the Jar Bundler is also available from the `icons` folder.
+
 ![](https://raw.github.com/y-a-v-a/glitcherator/master/icons/g128.png)
 
 ### Wishlist ###
