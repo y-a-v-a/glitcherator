@@ -15,14 +15,14 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-public class GlitchLicense extends JDialog {
+public class GlitchLicenseDialog extends JDialog {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9104705890661094599L;
 
-	public GlitchLicense() {
+	public GlitchLicenseDialog() {
 		super();
 		
 		JScrollPane scrollPane = new JScrollPane();

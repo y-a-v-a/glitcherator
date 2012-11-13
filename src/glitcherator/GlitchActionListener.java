@@ -8,8 +8,8 @@ import java.io.FilenameFilter;
 import java.util.prefs.Preferences;
 
 public class GlitchActionListener implements ActionListener {
-	private HowToDialog howToDialog = null;
-	private GlitchLicense licenseDialog = null;
+	private GlitchHowToDialog howToDialog = null;
+	private GlitchLicenseDialog licenseDialog = null;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -47,14 +47,14 @@ public class GlitchActionListener implements ActionListener {
 		if(e.getActionCommand() == "How") {
 			// cache panel
 			if (howToDialog == null) {
-				howToDialog = new HowToDialog();
+				howToDialog = new GlitchHowToDialog();
 			}
 			howToDialog.setVisible(true);
 		}
 		if(e.getActionCommand() == "license") {
 			// cache panel
 			if (licenseDialog == null) {
-				licenseDialog = new GlitchLicense();
+				licenseDialog = new GlitchLicenseDialog();
 			}
 			licenseDialog.setVisible(true);
 		}

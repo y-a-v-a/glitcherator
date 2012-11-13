@@ -16,11 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-public class HowToDialog extends JDialog {
+public class GlitchHowToDialog extends JDialog {
 
 	private static final long serialVersionUID = -2645033264885686180L;
 
-	public HowToDialog() {
+	public GlitchHowToDialog() {
 		super();
 		StringBuffer sb = new StringBuffer();
 		try {
