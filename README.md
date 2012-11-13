@@ -17,6 +17,9 @@ user/share/java/Tools/Jar Bundler
 ```
 After creating a Jar Bundle you can put Glitcherator within your Applications folder and start it by double clicking the application icon.
 
+### Icon ###
+![](https://raw.github.com/y-a-v-a/glitcherator/master/icons/g128.png)
+
 ### Wishlist ###
 * Support for other file types
 * Batch processing
