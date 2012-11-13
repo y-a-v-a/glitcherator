@@ -8,14 +8,14 @@ This app creates glitches by replacing certain amounts of values of a hexadecima
 ### Additional Libraries ###
 Glitcherator uses the [Apache Commons Codec](http://commons.apache.org/codec/) package. The [API Documentation is available](http://commons.apache.org/codec/apidocs/org/apache/commons/codec/binary/Hex.html).
 
-### Building ###
-The app is written using Eclipse IDE. The Apache Commons Codec library should be referenced. You can run the application from within Eclipse by clicking Run -> Run from the main menu.
+### Build ###
+Glitcherator is written using Eclipse IDE. The Apache Commons Codec library should be referenced. You can run the application from within Eclipse by clicking Run -> Run from the main menu.
 If you want to create a portable version, you can create a JAR-file by exporting the project to a 'Runnable JAR file'.
-On Mac OSX you can use the Jar Bundler to create a stand alone application, available from:
+On Mac OSX you can then use the Jar Bundler to create a stand alone application, available from:
 ```bash
 user/share/java/Tools/Jar Bundler
 ```
-After creating a Jar Bundle you can put in your Applications folder and start it by double clicking the application icon.
+After creating a Jar Bundle you can put Glitcherator within your Applications folder and start it by double clicking the application icon.
 
 ### Wishlist ###
 * Support for other file types
@@ -26,7 +26,7 @@ After creating a Jar Bundle you can put in your Applications folder and start it
 
 ### License ###
 
-From within the application a window is accessible containing the GPL v3 which applies to this code.
+From within the Glitcherator application a window is accessible containing the GPL v3 which applies to this code.
 
 ### Contributors ###
 
