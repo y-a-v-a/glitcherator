@@ -1,3 +1,8 @@
+/**
+ * Glitcherator
+ * @author Vincent Bruijn <vebruijn@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 package glitcherator;
 
 import java.awt.BorderLayout;
@@ -35,6 +40,7 @@ public class App {
 	public static final String INIT_IMAGE = "/resources/start.jpg";
 	public static final String ABOUT_ICON = "/resources/g32.png";
 	public static final String HOW_TO = "/resources/howto.html";
+	public static final String LICENSE = "/resources/license.html";
 	public static final Integer BASE_WIDTH = 1000;
 	public static final Integer BASE_HEIGHT = 800;
 	
@@ -99,6 +105,12 @@ public class App {
 		help.setActionCommand("How");
 		help.addActionListener(gbh);
 		helpMenu.add(help);
+		
+		JMenuItem license = new JMenuItem("License");
+		license.setName("License");
+		license.setActionCommand("license");
+		license.addActionListener(gbh);
+		helpMenu.add(license);
 		
 		frame.setJMenuBar(menuBar);
 		

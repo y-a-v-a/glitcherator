@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -31,8 +32,8 @@ public class HowToDialog extends JDialog {
 			while ((str = in.readLine()) != null) {
 				sb.append(str);
 			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (IOException e1) {
+			sb.append("Could not read 'How to' file.");
 		}
 
 		JLabel jl = new JLabel();

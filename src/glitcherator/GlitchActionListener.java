@@ -9,6 +9,7 @@ import java.util.prefs.Preferences;
 
 public class GlitchActionListener implements ActionListener {
 	private HowToDialog howToDialog = null;
+	private GlitchLicense licenseDialog = null;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -49,6 +50,13 @@ public class GlitchActionListener implements ActionListener {
 				howToDialog = new HowToDialog();
 			}
 			howToDialog.setVisible(true);
+		}
+		if(e.getActionCommand() == "license") {
+			// cache panel
+			if (licenseDialog == null) {
+				licenseDialog = new GlitchLicense();
+			}
+			licenseDialog.setVisible(true);
 		}
 	}
 	

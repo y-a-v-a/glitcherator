@@ -18,7 +18,6 @@ public class GlitchPanel extends JPanel {
 	private static final long serialVersionUID = 7824240316897863142L;
 
 	public GlitchPanel() {
-//		String filename = App.INIT_IMAGE;//getClass().getResource(App.INIT_IMAGE).getFile();
 		InputStream filename = getClass().getResourceAsStream(App.INIT_IMAGE);
 		try {
 			this.glitch = new Glitcherator(App.INIT_IMAGE, filename);
