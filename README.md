@@ -35,8 +35,8 @@ From within the Glitcherator application a window is accessible containing the G
 
 ### Contributors ###
 
-* Vincent Bruijn aka y_a_v_a aka Yet Another Visual Artist
+* [Vincent Bruijn](http://www.vincentbruijn.nl) aka [y_a_v_a](http://www.y-a-v-a.org) aka Yet Another Visual Artist
 
 ### Inspiration ###
 * Inspired by [Monglot](http://rosa-menkman.blogspot.nl/search/label/Monglot) of Rosa Menkman (thanks for open sourceing Monglot so I could take a look at the code)
-* Satromizer, the iOS app by Jon Satrom.
+* [Satromizer](http://satromizer.com/), the iOS app by [Jon Satrom](http://jonsatrom.com/).
